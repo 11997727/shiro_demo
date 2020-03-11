@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.shiro.mapper.UserMapper">
+
+    <select id="selectUserByUserName" resultType="com.example.shiro.entity.User">
+        select * from user where username=#{username}
+    </select>
+    <select id="selectAll" resultType="com.example.shiro.entity.User">
+        select * from user where username!=#{username}
+    </select>
+    <insert id="add"  parameterType="com.example.shiro.entity.User">
+        INSERT INTO user(`username`,`password`,`phone`)values(#{username},#{password},#{phone})
+        <!-- 指定结果类型resultType，keyProperty是属性，自动返回到属性id中，order是次序，after是指获取id是在于插入后 -->
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+            select LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <update id="updateUserStatus">
+        update user set `status`=1 where id=#{id}
+    </update>
+    <update id="updatePhoneById">
+        update user set `phone`=#{phone} where id=#{id}
+    </update>
+    <update id="updateStatusById">
+        update user set `status`=0 where id=#{id}
+    </update>
+</mapper>
